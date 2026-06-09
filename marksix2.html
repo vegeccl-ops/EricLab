@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港六合彩隨機選號器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+        button {
+            padding: 12px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .results-wrapper {
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .row-container {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .row-label {
+            font-weight: bold;
+            color: #777;
+            font-size: 14px;
+            min-width: 55px;
+        }
+        .ball-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .ball {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset -2px -2px 6px rgba(0,0,0,0.2), 1px 3px 5px rgba(0,0,0,0.1);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.6); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>香港六合彩 隨機選號</h1>
+    <button onclick="addNewResult()">攪珠選號</button>
+</div>
+
+<!-- 存放最多 5 組結果的容器 -->
+<div class="results-wrapper" id="resultsWrapper"></div>
+
+<script>
+    // 補齊官方確切的波膽顏色對應數字
+    const redBalls = [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46];
+    const blueBalls = [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48];
+    const greenBalls = [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
+
+    let resultCounter = 0;
+
+    // 根據號碼獲取對應的官方顏色
+    function getBallColor(num) {
+        if (redBalls.includes(num)) return { bg: '#ff4d4d', text: '#fff' };
+        if (blueBalls.includes(num)) return { bg: '#3399ff', text: '#fff' };
+        if (greenBalls.includes(num)) return { bg: '#2eb82e', text: '#fff' };
+        return { bg: '#e0e0e0', text: '#333' };
+    }
+
+    // 核心生成函數：隨機抽取 6 個 1-49 不重複的號碼並排序
+    function generateSixNumbers() {
+        const numbers = [];
+        while(numbers.length < 6) {
+            const randomNum = Math.floor(Math.random() * 49) + 1;
+            if(!numbers.includes(randomNum)) {
+                numbers.push(randomNum);
+            }
+        }
+        return numbers.sort((a, b) => a - b);
+    }
+
+    // 將新生成的號碼渲染至網頁（限制最多 5 組）
+    function addNewResult() {
+        const wrapper = document.getElementById('resultsWrapper');
+        resultCounter++;
+
+        // 呼叫選號邏輯
+        const numbers = generateSixNumbers();
+
+        // 建立單組結果的外殼
+        const row = document.createElement('div');
+        row.className = 'row-container';
+
+        // 組別標籤
+        const label = document.createElement('div');
+        label.className = 'row-label';
+        label.innerText = `第 ${resultCounter} 組`;
+        row.appendChild(label);
+
+        // 建立波膽容器
+        const ballContainer = document.createElement('div');
+        ballContainer.className = 'ball-container';
+
+        // 逐一渲染波膽，加上延遲動畫
+        numbers.forEach((num, index) => {
+            const ball = document.createElement('div');
+            ball.className = 'ball';
+            ball.innerText = num;
+            
+            const colors = getBallColor(num);
+            ball.style.backgroundColor = colors.bg;
+            ball.style.color = colors.text;
+            ball.style.animationDelay = `${index * 80}ms`;
+
+            ballContainer.appendChild(ball);
+        });
+
+        row.appendChild(ballContainer);
+
+        // 將新紀錄插入到最上方（置頂）
+        wrapper.insertBefore(row, wrapper.firstChild);
+
+        // 如果超過 5 組，移除最下方（最舊）的一組
+        if (wrapper.children.length > 5) {
+            wrapper.removeChild(wrapper.lastChild);
+        }
+    }
+</script>
+
+</body>
+</html>
