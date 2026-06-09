@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港六合彩隨機攪珠機</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .ball-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            min-height: 60px;
+        }
+        .ball {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset -3px -3px 8px rgba(0,0,0,0.2), 2px 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .ball.pop {
+            transform: scale(1.1);
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>香港六合彩 隨機選號</h1>
+    <div class="ball-container" id="ballContainer">
+        <div class="ball">?</div>
+        <div class="ball">?</div>
+        <div class="ball">?</div>
+        <div class="ball">?</div>
+        <div class="ball">?</div>
+        <div class="ball">?</div>
+    </div>
+    <button onclick="generateNumbers()">攪珠選號</button>
+</div>
+
+<script>
+    // Traditional Mark Six ball color assignment mapping
+    const redBalls = [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46];
+    const blueBalls = [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48];
+    const greenBalls = [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
+
+    function getBallColor(num) {
+        if (redBalls.includes(num)) return { bg: '#ff4d4d', text: '#fff' };
+        if (blueBalls.includes(num)) return { bg: '#3399ff', text: '#fff' };
+        if (greenBalls.includes(num)) return { bg: '#2eb82e', text: '#fff' };
+        return { bg: '#e0e0e0', text: '#333' };
+    }
+
+    function generateNumbers() {
+        const numbers = [];
+        
+        // Generate 6 unique random numbers from 1 to 49
+        while(numbers.length < 6) {
+            const randomNum = Math.floor(Math.random() * 49) + 1;
+            if(!numbers.includes(randomNum)) {
+                numbers.push(randomNum);
+            }
+        }
+        
+        // Sort numbers in ascending order
+        numbers.sort((a, b) => a - b);
+        
+        const container = document.getElementById('ballContainer');
+        container.innerHTML = ''; // Clear previous balls
+        
+        // Render balls with colors and animations
+        numbers.forEach((num, index) => {
+            setTimeout(() => {
+                const ball = document.createElement('div');
+                ball.className = 'ball pop';
+                ball.innerText = num;
+                
+                const colors = getBallColor(num);
+                ball.style.backgroundColor = colors.bg;
+                ball.style.color = colors.text;
+                
+                container.appendChild(ball);
+                
+                // Remove pop class after animation finishes
+                setTimeout(() => ball.classList.remove('pop'), 300);
+            }, index * 150); // Sequential delay effect
+        });
+    }
+</script>
+
+</body>
+</html>
