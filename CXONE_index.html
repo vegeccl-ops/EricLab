@@ -3,50 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NICE CXone Test Chat Page</title>
+    <title>NICE CXone Embedded Chat</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background-color: #f0f2f5;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .chat-box {
+        .container {
             text-align: center;
-            padding: 40px;
             background: #ffffff;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            width: 100%;
+            max-width: 500px;
         }
-        h1 { color: #333333; margin-bottom: 10px; }
-        p { color: #666666; font-size: 16px; line-height: 1.5; }
+        h1 { color: #333333; margin-top: 0; }
+        p { color: #666666; font-size: 16px; margin-bottom: 20px; }
+        
+        /* The Wrapper that holds and shapes your embedded chat window */
+        .chat-frame-wrapper {
+            width: 100%;
+            height: 500px; /* You can adjust this height to change the chat box size */
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="chat-box">
+    <div class="container">
         <h1>Customer Support</h1>
-        <p>Your CXone chat bubble will appear in the bottom corner of this page. Click it to start your hello and routing test!</p>
+        <p>Your live chat session is embedded below. Type your message to connect with an agent!</p>
+        
+        <!-- This embeds your V1 chat link right into the page layout -->
+        <div class="chat-frame-wrapper">
+            <iframe src="https://home-j32.niceincontact.com/incontact/chatclient/chatclient.aspx?poc=babe80a8-6162-429e-bc25-9024900f6035&amp;bu=4604745">
+                Your browser does not support embedded frames.
+            </iframe>
+        </div>
     </div>
-
-    <!-- START OF NICE CXONE EMBED SCRIPT -->
-    <script>
-    (function (i, s, o, r, g, v, a, m) {
-        g = v ? g + '? v=' + v : g; i['CXoneDfo'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }; i[r].l = +new Date(); i[r].u = g; a = s.createElement(o);
-        m = s.getElementsByTagName(o)[0]; a.async = true; a.src = g + '?' + Math.round(Date.now() / 1000 / 3600);
-        m.parentNode.insertBefore(a, m);
-    })(window, document, 'script', 'cxone', 'https://web-modules-de-na1.niceincontact.com/loader/1/loader.js');
-
-    // !!! REPLACE THE TWO VALUES BELOW WITH YOUR ACTUAL CXONE ADMIN PORTAL IDS !!!
-    cxone('guide', 'init', '4604745', 'chat_babe80a8-6162-4296-bc25-9024900f6035');
-    </script>
-    <!-- END OF NICE CXONE EMBED SCRIPT -->
 
 </body>
 </html>
