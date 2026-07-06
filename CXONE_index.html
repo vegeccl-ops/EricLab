@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NICE CXone Test Chat Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-box {
+            text-align: center;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+        h1 { color: #333333; margin-bottom: 10px; }
+        p { color: #666666; font-size: 16px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-box">
+        <h1>Customer Support</h1>
+        <p>Your CXone chat bubble will appear in the bottom corner of this page. Click it to start your hello and routing test!</p>
+    </div>
+
+    <!-- START OF NICE CXONE EMBED SCRIPT -->
+    <script>
+    (function (i, s, o, r, g, v, a, m) {
+        g = v ? g + '? v=' + v : g; i['CXoneDfo'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }; i[r].l = +new Date(); i[r].u = g; a = s.createElement(o);
+        m = s.getElementsByTagName(o)[0]; a.async = true; a.src = g + '?' + Math.round(Date.now() / 1000 / 3600);
+        m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', 'cxone', 'https://web-modules-de-na1.niceincontact.com/loader/1/loader.js');
+
+    // !!! REPLACE THE TWO VALUES BELOW WITH YOUR ACTUAL CXONE ADMIN PORTAL IDS !!!
+    cxone('guide', 'init', 'YOUR_TENANT_ID', 'chat_YOUR_POINT_OF_CONTACT_GUID_HERE');
+    </script>
+    <!-- END OF NICE CXONE EMBED SCRIPT -->
+
+</body>
+</html>
